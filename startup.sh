@@ -5,18 +5,21 @@ MYSQL_ROOT_PWD=${MYSQL_ROOT_PWD:-"mysql"}
 MYSQL_USER=${MYSQL_USER:-""}
 MYSQL_USER_PWD=${MYSQL_USER_PWD:-""}
 MYSQL_USER_DB=${MYSQL_USER_DB:-""}
+MYSQL_DATA_VOLUME=${MYSQL_DATA_VOLUME:-""}
 
 if [ ! -d "/run/mysqld" ]; then
 	mkdir -p /run/mysqld
 	chown -R mysql:mysql /run/mysqld
 fi
 
-if [ -d /var/lib/mysql/mysql ]; then
+#if [ -d /var/lib/mysql/mysql ]; then
+if [ -d $MYSQL_DATA_VOLUME/mysql ]; then
 	echo '[i] MySQL directory already present, skipping creation'
 else
 	echo "[i] MySQL data directory not found, creating initial DBs"
-
-	chown -R mysql:mysql /var/lib/mysql
+	
+	chown -R mysql:mysql $MYSQL_DATA_VOLUME
+	#chown -R mysql:mysql /var/lib/mysql
 
 	# init database
 	echo 'Initializing database'
